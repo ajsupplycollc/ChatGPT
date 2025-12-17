@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Node / RN
+node_modules/
+dist/
+build/
+
+# OS
+.DS_Store
+
+# Docker volumes / local
+*.log
