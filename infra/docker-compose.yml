@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: arb
+      POSTGRES_PASSWORD: arbpass
+      POSTGRES_DB: arbdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - arb_postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ../services/api
+    environment:
+      DATABASE_URL: postgresql+psycopg://arb:arbpass@postgres:5432/arbdb
+      REDIS_URL: redis://redis:6379/0
+      APP_ENV: dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  arb_postgres_data:
